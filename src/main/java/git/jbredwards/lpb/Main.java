@@ -17,17 +17,19 @@ import java.util.Map;
  * @author jbred
  *
  */
+@IFMLLoadingPlugin.SortingIndex(1001)
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 @IFMLLoadingPlugin.Name("Loading Progress Bar Plugin")
 @Mod(modid = "lpb", name = "Loading Progress Bar", version = "1.0", clientSideOnly = true)
 public final class Main implements IFMLLoadingPlugin
 {
+    private static boolean obfuscated;
+
     public static final class Transformer implements IClassTransformer
     {
         @Override
         public byte[] transform(@Nonnull String name, @Nonnull String transformedName, @Nonnull byte[] basicClass) {
             if("net.minecraft.client.LoadingScreenRenderer".equals(transformedName) || "net.minecraft.server.MinecraftServer".equals(transformedName)) {
-                final boolean obfuscated = !name.equals(transformedName);
                 final ClassNode classNode = new ClassNode();
                 new ClassReader(basicClass).accept(classNode, 0);
                 //does the changes
@@ -63,6 +65,7 @@ public final class Main implements IFMLLoadingPlugin
                             if(insn.getOpcode() == Opcodes.ICONST_0) {
                                 method.instructions.insert(insn, new MethodInsnNode(Opcodes.INVOKESTATIC, "git/jbredwards/lpb/Main", "set", "(I)V"));
                                 method.instructions.insert(insn, new InsnNode(Opcodes.ICONST_M1));
+                                if(method.maxStack < 3) method.maxStack++;
                                 break methods;
                             }
                         }
@@ -87,6 +90,9 @@ public final class Main implements IFMLLoadingPlugin
     @Override
     public String[] getASMTransformerClass() { return new String[] { "git.jbredwards.lpb.Main$Transformer" }; }
 
+    @Override
+    public void injectData(@Nonnull Map<String, Object> data) { obfuscated = (boolean)data.get("runtimeDeobfuscationEnabled"); }
+
     @Nullable
     @Override
     public String getModContainerClass() { return null; }
@@ -94,9 +100,6 @@ public final class Main implements IFMLLoadingPlugin
     @Nullable
     @Override
     public String getSetupClass() { return null; }
-
-    @Override
-    public void injectData(@Nonnull Map<String, Object> data) { }
 
     @Nullable
     @Override
