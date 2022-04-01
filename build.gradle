@@ -1,0 +1,37 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url = 'https://files.minecraftforge.net/maven' }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+
+version = 'v1.0-mc1.12.2'
+group = 'git.jbredwards.lpb' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'Loading-Progress-Bar'
+sourceCompatibility  = targetCompatibility = '1.8'
+
+minecraft {
+    version = '1.12.2-14.23.5.2847'
+    runDir = 'run'
+    mappings = 'snapshot_20171003'
+    makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+}
+
+//for applying asm outside dev environment
+jar { 
+    manifest { 
+        attributes([
+            'FMLCorePlugin': 'git.jbredwards.lpb.Main',
+            'FMLCorePluginContainsFMLMod': 'true'
+        ])
+    }
+}
+
+//for applying asm with intellij
+runClient { jvmArgs '-Dfml.coreMods.load=git.jbredwards.lpb.Main' }
+runServer { jvmArgs '-Dfml.coreMods.load=git.jbredwards.lpb.Main' }
