@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-version = 'v1.0-mc1.12.2'
+version = 'v1.0-mc[1.8-1.12.2]'
 group = 'git.jbredwards.lpb' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'Loading-Progress-Bar'
 sourceCompatibility  = targetCompatibility = '1.8'

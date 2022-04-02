@@ -18,9 +18,8 @@ import java.util.Map;
  *
  */
 @IFMLLoadingPlugin.SortingIndex(1001)
-@IFMLLoadingPlugin.MCVersion("1.12.2")
 @IFMLLoadingPlugin.Name("Loading Progress Bar Plugin")
-@Mod(modid = "lpb", name = "Loading Progress Bar", version = "1.0", clientSideOnly = true)
+@Mod(modid = "lpb", name = "Loading Progress Bar", version = "1.0", clientSideOnly = true, acceptedMinecraftVersions = "[1.8,1.12.2]")
 public final class Main implements IFMLLoadingPlugin
 {
     private static boolean obfuscated;
@@ -91,7 +90,7 @@ public final class Main implements IFMLLoadingPlugin
     public String[] getASMTransformerClass() { return new String[] { "git.jbredwards.lpb.Main$Transformer" }; }
 
     @Override
-    public void injectData(@Nonnull Map<String, Object> data) { obfuscated = (boolean)data.get("runtimeDeobfuscationEnabled"); }
+    public void injectData(@Nonnull Map<String, Object> data) { obfuscated = (Boolean)data.get("runtimeDeobfuscationEnabled"); }
 
     @Nullable
     @Override
