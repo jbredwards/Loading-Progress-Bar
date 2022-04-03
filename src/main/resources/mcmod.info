@@ -3,6 +3,7 @@
   "name": "Loading Progress Bar",
   "description": "A small mod that brings back the progress bar from old versions.",
   "version": "1.0",
+  "mcversion": "1.7.10",
   "url": "https://github.com/jbredwards/Loading-Progress-Bar",
   "authorList": ["jbredwards"]
 }]

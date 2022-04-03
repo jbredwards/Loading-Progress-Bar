@@ -1,8 +1,8 @@
 package git.jbredwards.lpb;
 
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import net.minecraft.launchwrapper.IClassTransformer;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
@@ -18,8 +18,9 @@ import java.util.Map;
  *
  */
 @IFMLLoadingPlugin.SortingIndex(1001)
+@IFMLLoadingPlugin.MCVersion("1.7.10")
 @IFMLLoadingPlugin.Name("Loading Progress Bar Plugin")
-@Mod(modid = "lpb", name = "Loading Progress Bar", version = "1.0", clientSideOnly = true, acceptedMinecraftVersions = "[1.8,1.12.2]")
+@Mod(modid = "lpb", name = "Loading Progress Bar", version = "1.0", acceptableRemoteVersions = "*")
 public final class Main implements IFMLLoadingPlugin
 {
     private static boolean obfuscated;
@@ -35,7 +36,7 @@ public final class Main implements IFMLLoadingPlugin
                 methods:
                 for(MethodNode method : classNode.methods) {
                     //fix client display
-                    if((obfuscated ? "func_73719_c" : "displayLoadingString").equals(method.name)) {
+                    if((obfuscated ? "func_73719_c" : "resetProgresAndWorkingMessage").equals(method.name)) {
                         for(AbstractInsnNode insn : method.instructions.toArray()) {
                             if(insn.getOpcode() == Opcodes.ICONST_M1) {
                                 method.instructions.insert(insn, new MethodInsnNode(Opcodes.INVOKESTATIC, "git/jbredwards/lpb/Main", "get", "()I"));
